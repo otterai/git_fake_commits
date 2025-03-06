@@ -1,15 +1,15 @@
-name: Auto Commit Every 10 Minutes
+name: Auto Commit
 
 on:
   schedule:
-    - cron: "*/1 * * * *"  # Runs every 10 minutes
-  workflow_dispatch:  # Manual trigger option
+    - cron: "*/1 * * * *"  # Every 1 minute (for testing)
+  workflow_dispatch:
 
 jobs:
   commit:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout Repo
         uses: actions/checkout@v3
 
       - name: Set Git User
@@ -17,10 +17,10 @@ jobs:
           git config --global user.name "otterai"
           git config --global user.email "uncle@flash.co"
 
-      - name: Make a Fake Commit
+      - name: Fake Commit
         run: |
-          echo "Fake Contribution $(date)" > fake_commit.txt
-          git add fake_commit.txt
-          git commit -m "Added a fake contribution"
+          echo "Fake Contribution $(date) - Random: $RANDOM" >> commit_log.txt
+          git add commit_log.txt
+          git commit -m "Automated Commit - $(date)"
           git push
           
