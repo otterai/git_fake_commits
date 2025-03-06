@@ -1,0 +1,16 @@
+{
+    "\ud83d\udcdd send the command to add (e.g., `.test`)": {
+        "type": "text",
+        "content": "K",
+        "url": null,
+        "caption": null,
+        "last_used": 1737706100.568645
+    },
+    "please": {
+        "type": "text",
+        "content": "Rehan bhaiya please \ud83e\udd7a",
+        "url": null,
+        "caption": null,
+        "last_used": 1737708594.333421
+    }
+}
