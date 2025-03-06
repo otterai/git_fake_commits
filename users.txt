@@ -1,0 +1,50 @@
+{
+    "6076683960": {
+        "username": "faony",
+        "chat_id": "6076683960",
+        "balance": 2,
+        "referred_by": null,
+        "last_bonus": "2025-01-15 15:02:34.846282",
+        "join_date": "2025-01-15 15:02:04.018090"
+    },
+    "6241590270": {
+        "username": "RehanCodz",
+        "chat_id": "6241590270",
+        "balance": 2,
+        "referred_by": null,
+        "last_bonus": "2025-01-15 15:03:50.374413",
+        "join_date": "2025-01-15 15:02:44.529083"
+    },
+    "5767166269": {
+        "username": "UnseenAdmin",
+        "chat_id": "5767166269",
+        "balance": 0,
+        "referred_by": null,
+        "last_bonus": null,
+        "join_date": "2025-01-15 15:03:24.583130"
+    },
+    "5958621067": {
+        "username": "Eplugs",
+        "chat_id": "5958621067",
+        "balance": 1,
+        "referred_by": null,
+        "last_bonus": "2025-01-15 15:50:47.976289",
+        "join_date": "2025-01-15 15:49:58.767392"
+    },
+    "7387793694": {
+        "username": "Orochimarn",
+        "chat_id": "7387793694",
+        "balance": 0,
+        "referred_by": "6076683960",
+        "last_bonus": null,
+        "join_date": "2025-01-15 15:51:16.540690"
+    },
+    "7510326316": {
+        "username": "FreakyPlugs",
+        "chat_id": "7510326316",
+        "balance": 0,
+        "referred_by": "6241590270",
+        "last_bonus": null,
+        "join_date": "2025-01-15 15:52:04.783694"
+    }
+}
