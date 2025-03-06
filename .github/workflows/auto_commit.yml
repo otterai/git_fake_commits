@@ -2,7 +2,7 @@ name: Auto Commit
 
 on:
   schedule:
-    - cron: "*/1 * * * *"  # Every 1 minute (for testing)
+    - cron: "*/10 * * * *"  # Every 1 minute (for testing)
   workflow_dispatch:
 
 jobs:
@@ -19,8 +19,8 @@ jobs:
 
       - name: Fake Commit
         run: |
-          echo "Fake Contribution $(date) - Random: $RANDOM" >> commit_log.txt
-          git add commit_log.txt
+          echo "Fake Contribution $(date) - Random: $RANDOM" >> commit_ttg.txt
+          git add commit_ttg.txt
           git commit -m "Automated Commit - $(date)"
           git push
           
