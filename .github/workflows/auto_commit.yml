@@ -13,8 +13,8 @@ jobs:
 
       - name: "⚙️ Set Git User"
         run: |
-          git config --global user.name "DiagonalGradientBot"
-          git config --global user.email "diagonal@gradient.com"
+          git config --global user.name "otterai"
+          git config --global user.email "uncle@flash.co"
 
       - name: "🔥 Generate Multi-Diagonal Gradient Pattern 🔥"
         run: |
