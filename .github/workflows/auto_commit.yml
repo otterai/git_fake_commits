@@ -23,7 +23,7 @@ jobs:
 
       - name: ⏳ Modify & Commit (Cool Random Gaps)
         run: |
-          for DAY in {300..1..1}  # 🗓 300 days loop
+          for DAY in {400..1..1}  # 🗓 300 days loop
           do
             # 🎲 Decide whether to SKIP this day
             SKIP_DAY=$(( RANDOM % 100 ))
