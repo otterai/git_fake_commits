@@ -1,4 +1,5 @@
-name: 🚀 Instant Backfill Commits  
+
+name: 🚀 Zig-Zag Backfill (Last 5 Months - Alternate Days Skipped)  
 
 on:
   workflow_dispatch:  # 🔄 Manually Trigger
@@ -20,12 +21,17 @@ jobs:
         run: |
           [ -d auto_commits ] || mkdir auto_commits
 
-      - name: ⏳ Backfill Commits for 1 Month (Fixed Version)
+      - name: ⏳ Backfill Commits for 5 Months (Zig-Zag + Alternate Days Skipped)
         run: |
-          for DAY in {30..1}
+          for DAY in {150..1..2}  # 🔥 Skip Every Alternate Day (..2)
           do
-            COMMITS_PER_DAY=$(( RANDOM % 8 + 3 ))  # 🌟 3-10 commits per day
-            
+            # 🔀 Zig-Zag Logic: Odd Days (Dark), Even Days (Light)
+            if (( DAY % 4 == 0 )); then
+              COMMITS_PER_DAY=$(( RANDOM % 4 + 1 ))  # Light Green: 1-4 commits
+            else
+              COMMITS_PER_DAY=$(( RANDOM % 7 + 4 ))  # Dark Green: 4-10 commits
+            fi
+
             for i in $(seq 1 $COMMITS_PER_DAY)
             do
               FILE_NAME="auto_commits/commit_$(date -d "$DAY days ago" +%Y%m%d)_$(( RANDOM % 100 )).txt"
@@ -34,7 +40,7 @@ jobs:
               
               GIT_COMMITTER_DATE="$(date -d "$DAY days ago" --rfc-2822)" \
               GIT_AUTHOR_DATE="$(date -d "$DAY days ago" --rfc-2822)" \
-              git commit -m "🟢 Fast Commit - $(date -d "$DAY days ago")" --date "$(date -d "$DAY days ago")"
+              git commit -m "🟢 Zig-Zag Commit - $(date -d "$DAY days ago")" --date "$(date -d "$DAY days ago")"
             done
           done
           
