@@ -1,15 +1,13 @@
-# 🌟 Ultimate Zig-Zag Contribution Pattern Generator
-# 🎨 Creates a stylish zig-zag contribution graph with multiple commits in one run
+# 🌟 Fastest GitHub Contribution Booster
+# ⚡ Backfills last 1 month in under 30 seconds
 
-name: 🚀 Auto Commit  
+name: 🚀 Instant Backfill Commits  
 
 on:
-  schedule:
-    - cron: "30 5,11,17,23 * * *"  # 🕒 Runs at 5 AM, 11 AM, 5 PM, 11 PM
-  workflow_dispatch:  # 🔄 Manual trigger option
+  workflow_dispatch:  # 🔄 Manually Trigger
 
 jobs:
-  commit:
+  backfill:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,27 +23,25 @@ jobs:
         run: |
           [ -d auto_commits ] || mkdir auto_commits
 
-      # 🔀 Multi-Commit Zig-Zag Logic
-      - name: 🎲 Zig-Zag Commit Effect
+      # 🔀 Ultra-Fast Backfill Logic
+      - name: ⏳ Backfill Commits for 1 Month (Ultra-Fast Mode)
         run: |
-          HOUR=$(date +%H)
-          
-          if [ $HOUR -ge 23 ] || [ $HOUR -lt 6 ]; then
-            COMMIT_COUNT=$(( RANDOM % 10 + 10 ))  # 🌙 Night: 10-20 commits
-          elif [ $HOUR -ge 17 ] || [ $HOUR -lt 23 ]; then
-            COMMIT_COUNT=$(( RANDOM % 7 + 7 ))  # 🌆 Evening: 7-14 commits
-          else
-            COMMIT_COUNT=$(( RANDOM % 5 + 5 ))  # 🌞 Daytime: 5-10 commits
-          fi
-
-          for i in $(seq 1 $COMMIT_COUNT)
+          for DAY in {30..1}
           do
-            FILE_NAME="auto_commits/commit_$(date +%Y%m%d%H%M%S)_$(( RANDOM % 100 )).txt"
-            echo "🚀 Auto Commit #$i at $(date) - Random: $RANDOM" > $FILE_NAME
-            git add $FILE_NAME
-            git commit -m "🟢 Auto Commit #$i - $(date)"
-            sleep $(( RANDOM % 60 ))  # 🕒 Random delay for commit time variation
+            COMMITS_PER_DAY=$(( RANDOM % 8 + 3 ))  # 🌟 3-10 commits per day
+            
+            for i in $(seq 1 $COMMITS_PER_DAY)
+            do
+              FILE_NAME="auto_commits/commit_$(date -d "$DAY days ago" +%Y%m%d)_$(( RANDOM % 100 )).txt"
+              echo "🚀 Auto Commit at $(date -d "$DAY days ago") - Random: $RANDOM" > $FILE_NAME
+              git add $FILE_NAME
+              
+              GIT_COMMITTER_DATE="$(date -d "$DAY days ago" --rfc-2822)" \
+              GIT_AUTHOR_DATE="$(date -d "$DAY days ago" --rfc-2822)" \
+              git commit -m "🟢 Fast Commit - $(date -d "$DAY days ago")" --date "$(date -d "$DAY days ago")" &  # Runs in background
+            done
           done
           
+          wait  # Wait for all background commits to finish
           git push
           
