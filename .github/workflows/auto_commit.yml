@@ -22,7 +22,7 @@ jobs:
 
       - name: ⏳ Backfill Commits for 10 Months (Random Pattern, Alternate Days)
         run: |
-          for DAY in {365..1..2}  # 🗓 Skipping every alternate day
+          for DAY in {65..1..2}  # 🗓 Skipping every alternate day
           do
             # 🎲 Random probability-based pattern
             PROBABILITY=$(( RANDOM % 100 ))
