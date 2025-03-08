@@ -1,10 +1,10 @@
-name: 🐍 GitHub Snake Contribution Graph
+name: 🚀 "X & I" Pattern Contribution  
 
 on:
   workflow_dispatch:  # 🔄 Manually Trigger  
 
 jobs:
-  create_snake:
+  create_x_i_pattern:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,35 +16,44 @@ jobs:
           git config --global user.name "otterai"
           git config --global user.email "uncle@flash.co"
 
-      - name: 🐍 Generate Snake Pattern Commits
+      - name: 📂 Create & Update a Single Commit File
         run: |
-          # 📆 Define Start & End Date
-          START_DATE="2024-04-01"  # Apne account creation date ya kuch purani date daal sakte ho
-          END_DATE=$(date +%Y-%m-%d)
+          FILE_NAME="autocommits/contribution_log.txt"
+          [ -d autocommits ] || mkdir autocommits
+          [ -f $FILE_NAME ] || touch $FILE_NAME
 
-          FILE_NAME="snake_commits.txt"
-          touch $FILE_NAME
+          # 🎨 Define the "X & I" pattern using selected days  
+          X_I_DAYS=(5 10 15 20 25 30 35 40 45 50 55 60  # "I" Vertical Line  
+                   5 12 19 26 33 40 47 54 61  # "X" Left Diagonal  
+                   11 18 25 32 39 46 53 60   # "X" Right Diagonal  
+                   7 14 21 28 35 42 49 56  # Random Dark Spots  
+          )
 
-          # 🐍 Define Snake Wave Pattern (Commit Frequency)
-          SNAKE_PATTERN=(0 2 4 6 8 7 5 3 1 2 4 6 8 7 5 3 1)  # Zigzag Wave  
+          for DAY in "${X_I_DAYS[@]}"
+          do
+            # 🎲 Commit distribution based on 40% 50% 70% 90%
+            PROBABILITY=$(( RANDOM % 100 ))
 
-          INDEX=0
-          while [ "$START_DATE" != "$END_DATE" ]; do
-            COMMITS_PER_DAY=${SNAKE_PATTERN[$INDEX]}  # Dynamic Commit Count
+            if (( PROBABILITY < 40 )); then
+              COMMITS_PER_DAY=$(( RANDOM % 3 + 1 ))  # 🔵 40% chance of 1-3 commits (very light green)
+            elif (( PROBABILITY < 50 )); then
+              COMMITS_PER_DAY=$(( RANDOM % 5 + 3 ))  # 🟢 50% chance of 3-7 commits (light green)
+            elif (( PROBABILITY < 70 )); then
+              COMMITS_PER_DAY=$(( RANDOM % 7 + 7 ))  # 🔥 70% chance of 7-14 commits (medium green)
+            else
+              COMMITS_PER_DAY=$(( RANDOM % 10 + 15 ))  # 🚀 90% chance of 15-25 commits (dark green)
+            fi
 
-            for i in $(seq 1 $COMMITS_PER_DAY); do
-              echo "🐍 Snake Commit on $START_DATE - $RANDOM" >> $FILE_NAME
+            for i in $(seq 1 $COMMITS_PER_DAY)
+            do
+              echo "🚀 Pattern Commit at $(date -d "2025-01-01 +$DAY days") - Random: $RANDOM" >> $FILE_NAME
               git add $FILE_NAME
-
-              GIT_COMMITTER_DATE="$START_DATE 12:00:00" \
-              GIT_AUTHOR_DATE="$START_DATE 12:00:00" \
-              git commit -m "🐍 Snake Commit on $START_DATE" --date "$START_DATE 12:00:00"
+              
+              GIT_COMMITTER_DATE="$(date -d "2025-01-01 +$DAY days" --rfc-2822)" \
+              GIT_AUTHOR_DATE="$(date -d "2025-01-01 +$DAY days" --rfc-2822)" \
+              git commit -m "🔥 Cool X & I Pattern Commit - $(date -d "2025-01-01 +$DAY days")" --date "$(date -d "2025-01-01 +$DAY days")"
             done
-
-            # ⏩ Move to next day & Loop Pattern
-            START_DATE=$(date -d "$START_DATE + 2 days" +%Y-%m-%d)
-            INDEX=$(( (INDEX + 1) % ${#SNAKE_PATTERN[@]} ))  # Loop Pattern
           done
-
+          
           git push
           
