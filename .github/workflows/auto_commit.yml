@@ -1,10 +1,10 @@
-name: 🚀 "Hi" Contribution Graph  
+name: 🐍 GitHub Snake Contribution Graph
 
 on:
-  workflow_dispatch:  # 🔄 Manually Trigger
+  workflow_dispatch:  # 🔄 Manually Trigger  
 
 jobs:
-  create_hi_pattern:
+  create_snake:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,34 +16,35 @@ jobs:
           git config --global user.name "otterai"
           git config --global user.email "uncle@flash.co"
 
-      - name: 📂 Create Commit Folder (if not exists)
+      - name: 🐍 Generate Snake Pattern Commits
         run: |
-          [ -d autocommits ] || mkdir autocommits
+          # 📆 Define Start & End Date
+          START_DATE="2024-01-01"  # Apne account creation date ya kuch purani date daal sakte ho
+          END_DATE=$(date +%Y-%m-%d)
 
-      - name: 📝 Generate "Hi" Pattern Commits
-        run: |
-          # 🎨 Define the "Hi" pattern (using specific days)
-          HI_DAYS=(10 11 12 13 14 15 16 17 18  # "H" vertical left
-                   22  # "H" middle bar
-                   30 31 32 33 34 35 36 37 38  # "H" vertical right
-                   50 51 52 53 54 55 56 57 58  # "I" vertical
-          )
+          FILE_NAME="snake_commits.txt"
+          touch $FILE_NAME
 
-          for DAY in "${HI_DAYS[@]}"
-          do
-            COMMITS_PER_DAY=$(( RANDOM % 8 + 5 ))  # Random commit count (5-12)
-            
-            for i in $(seq 1 $COMMITS_PER_DAY)
-            do
-              FILE_NAME="autocommits/commit_$(date -d "2025-01-01 +$DAY days" +%Y%m%d)_$(( RANDOM % 100 )).txt"
-              echo "🔥 Hi Commit at $(date -d "2025-01-01 +$DAY days") - Random: $RANDOM" > $FILE_NAME
+          # 🐍 Define Snake Wave Pattern (Commit Frequency)
+          SNAKE_PATTERN=(0 2 4 6 8 7 5 3 1 2 4 6 8 7 5 3 1)  # Zigzag Wave  
+
+          INDEX=0
+          while [ "$START_DATE" != "$END_DATE" ]; do
+            COMMITS_PER_DAY=${SNAKE_PATTERN[$INDEX]}  # Dynamic Commit Count
+
+            for i in $(seq 1 $COMMITS_PER_DAY); do
+              echo "🐍 Snake Commit on $START_DATE - $RANDOM" >> $FILE_NAME
               git add $FILE_NAME
-              
-              GIT_COMMITTER_DATE="$(date -d "2025-01-01 +$DAY days" --rfc-2822)" \
-              GIT_AUTHOR_DATE="$(date -d "2025-01-01 +$DAY days" --rfc-2822)" \
-              git commit -m "🔥 Hi Commit - $(date -d "2025-01-01 +$DAY days")" --date "$(date -d "2025-01-01 +$DAY days")"
+
+              GIT_COMMITTER_DATE="$START_DATE 12:00:00" \
+              GIT_AUTHOR_DATE="$START_DATE 12:00:00" \
+              git commit -m "🐍 Snake Commit on $START_DATE" --date "$START_DATE 12:00:00"
             done
+
+            # ⏩ Move to next day & Loop Pattern
+            START_DATE=$(date -d "$START_DATE + 2 days" +%Y-%m-%d)
+            INDEX=$(( (INDEX + 1) % ${#SNAKE_PATTERN[@]} ))  # Loop Pattern
           done
-          
+
           git push
           
