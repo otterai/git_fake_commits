@@ -1,5 +1,4 @@
-
-name: 🚀 Zig-Zag Backfill (Last 5 Months - Alternate Days Skipped)  
+name: 🚀 Random Pattern Backfill (Last 10 Months - Alternate Days)  
 
 on:
   workflow_dispatch:  # 🔄 Manually Trigger
@@ -21,15 +20,21 @@ jobs:
         run: |
           [ -d auto_commits ] || mkdir auto_commits
 
-      - name: ⏳ Backfill Commits for 5 Months (Zig-Zag + Alternate Days Skipped)
+      - name: ⏳ Backfill Commits for 10 Months (Random Pattern, Alternate Days)
         run: |
-          for DAY in {150..1..2}  # 🔥 Skip Every Alternate Day (..2)
+          for DAY in {300..1..2}  # 🗓 Skipping every alternate day
           do
-            # 🔀 Zig-Zag Logic: Odd Days (Dark), Even Days (Light)
-            if (( DAY % 4 == 0 )); then
-              COMMITS_PER_DAY=$(( RANDOM % 4 + 1 ))  # Light Green: 1-4 commits
+            # 🎲 Random probability-based pattern
+            PROBABILITY=$(( RANDOM % 100 ))
+            
+            if (( PROBABILITY < 20 )); then
+              COMMITS_PER_DAY=$(( RANDOM % 2 + 1 ))  # 🔵 20% chance of 1-2 commits (very light green)
+            elif (( PROBABILITY < 50 )); then
+              COMMITS_PER_DAY=$(( RANDOM % 4 + 2 ))  # 🟢 30% chance of 2-6 commits (light green)
+            elif (( PROBABILITY < 80 )); then
+              COMMITS_PER_DAY=$(( RANDOM % 7 + 5 ))  # 🔥 60% chance of 5-12 commits (medium green)
             else
-              COMMITS_PER_DAY=$(( RANDOM % 7 + 4 ))  # Dark Green: 4-10 commits
+              COMMITS_PER_DAY=$(( RANDOM % 10 + 10 ))  # 🚀 80% chance of 10-20 commits (dark green)
             fi
 
             for i in $(seq 1 $COMMITS_PER_DAY)
@@ -40,7 +45,7 @@ jobs:
               
               GIT_COMMITTER_DATE="$(date -d "$DAY days ago" --rfc-2822)" \
               GIT_AUTHOR_DATE="$(date -d "$DAY days ago" --rfc-2822)" \
-              git commit -m "🟢 Zig-Zag Commit - $(date -d "$DAY days ago")" --date "$(date -d "$DAY days ago")"
+              git commit -m "🟢 Random Commit - $(date -d "$DAY days ago")" --date "$(date -d "$DAY days ago")"
             done
           done
           
