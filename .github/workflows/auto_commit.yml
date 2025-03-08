@@ -1,14 +1,14 @@
-name: 🚀 "X & I" Pattern Contribution  
+name: 🚀 Extreme Cool Commit Pattern (Dark Blocks)
 
 on:
-  workflow_dispatch:  # 🔄 Manually Trigger  
+  workflow_dispatch:  # 🔄 Manually Trigger
 
 jobs:
-  create_x_i_pattern:
+  backfill:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📂 Checkout Repo
+      - name: 📂 Checkout Repository
         uses: actions/checkout@v3
 
       - name: 🛠 Set Git User
@@ -16,44 +16,39 @@ jobs:
           git config --global user.name "otterai"
           git config --global user.email "uncle@flash.co"
 
-      - name: 📂 Create & Update a Single Commit File
+      - name: 📂 Ensure Commit File Exists
         run: |
-          FILE_NAME="autocommits/contribution_log.txt"
-          [ -d autocommits ] || mkdir autocommits
-          [ -f $FILE_NAME ] || touch $FILE_NAME
+          echo "GitHub Auto Commit History" > commit_history.txt
+          git add commit_history.txt
 
-          # 🎨 Define the "X & I" pattern using selected days  
-          X_I_DAYS=(5 10 15 20 25 30 35 40 45 50 55 60  # "I" Vertical Line  
-                   5 12 19 26 33 40 47 54 61  # "X" Left Diagonal  
-                   11 18 25 32 39 46 53 60   # "X" Right Diagonal  
-                   7 14 21 28 35 42 49 56  # Random Dark Spots  
-          )
-
-          for DAY in "${X_I_DAYS[@]}"
+      - name: ⏳ Modify & Commit (Extreme Pattern)
+        run: |
+          for DAY in {300..1..2}  # 🗓 Skipping every alternate day
           do
-            # 🎲 Commit distribution based on 40% 50% 70% 90%
+            # 🎲 Random probability-based blocks
             PROBABILITY=$(( RANDOM % 100 ))
 
-            if (( PROBABILITY < 40 )); then
-              COMMITS_PER_DAY=$(( RANDOM % 3 + 1 ))  # 🔵 40% chance of 1-3 commits (very light green)
-            elif (( PROBABILITY < 50 )); then
-              COMMITS_PER_DAY=$(( RANDOM % 5 + 3 ))  # 🟢 50% chance of 3-7 commits (light green)
+            if (( PROBABILITY < 10 )); then
+              COMMITS_PER_DAY=$(( RANDOM % 3 + 1 ))  # 🔵 10% chance of 1-3 commits (light green)
+            elif (( PROBABILITY < 40 )); then
+              COMMITS_PER_DAY=$(( RANDOM % 6 + 4 ))  # 🟢 30% chance of 4-10 commits (medium green)
             elif (( PROBABILITY < 70 )); then
-              COMMITS_PER_DAY=$(( RANDOM % 7 + 7 ))  # 🔥 70% chance of 7-14 commits (medium green)
+              COMMITS_PER_DAY=$(( RANDOM % 10 + 10 ))  # 🔥 30% chance of 10-20 commits (dark green)
             else
-              COMMITS_PER_DAY=$(( RANDOM % 10 + 15 ))  # 🚀 90% chance of 15-25 commits (dark green)
+              COMMITS_PER_DAY=$(( RANDOM % 15 + 20 ))  # 🚀 30% chance of 20-35 commits (very dark green)
             fi
 
             for i in $(seq 1 $COMMITS_PER_DAY)
             do
-              echo "🚀 Pattern Commit at $(date -d "2025-01-01 +$DAY days") - Random: $RANDOM" >> $FILE_NAME
-              git add $FILE_NAME
+              echo "Cool Edit #$i on $(date -d "$DAY days ago" +%Y-%m-%d)" >> commit_history.txt
+              git add commit_history.txt
               
-              GIT_COMMITTER_DATE="$(date -d "2025-01-01 +$DAY days" --rfc-2822)" \
-              GIT_AUTHOR_DATE="$(date -d "2025-01-01 +$DAY days" --rfc-2822)" \
-              git commit -m "🔥 Cool X & I Pattern Commit - $(date -d "2025-01-01 +$DAY days")" --date "$(date -d "2025-01-01 +$DAY days")"
+              GIT_COMMITTER_DATE="$(date -d "$DAY days ago" --rfc-2822)" \
+              GIT_AUTHOR_DATE="$(date -d "$DAY days ago" --rfc-2822)" \
+              git commit -m "🚀 Cool Dark Block - $(date -d "$DAY days ago")"
             done
           done
-          
-          git push
-          
+
+      - name: 🚀 Push Changes
+        run: git push
+        
