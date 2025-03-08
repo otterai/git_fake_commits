@@ -1,26 +1,39 @@
-name: Auto Commit
+# 🚀 Advanced Auto Commit Workflow
+# 🔄 Makes GitHub contributions look more natural & well-distributed
+
+name: 🚀 Auto Commit  
 
 on:
   schedule:
-    - cron: "*/10 * * * *"  # Every 1 minute (for testing)
-  workflow_dispatch:
+    - cron: "*/10 * * * *"  # ⏳ Runs every 10 minutes
+  workflow_dispatch:  # 🔄 Manual trigger option
 
 jobs:
   commit:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repo
+      # 📌 Checkout Repository
+      - name: 📂 Checkout Repo
         uses: actions/checkout@v3
 
-      - name: Set Git User
+      # 🔧 Configure Git User
+      - name: 🛠 Set Git User
         run: |
           git config --global user.name "otterai"
           git config --global user.email "uncle@flash.co"
 
-      - name: Fake Commit
+      # ⏳ Random Delay (Makes Commit Timing Unpredictable)
+      - name: ⏳ Adding Random Delay
         run: |
-          echo "Fake Contribution $(date) - Random: $RANDOM" >> commit_ttg.txt
-          git add commit_ttg.txt
-          git commit -m "Automated Commit - $(date)"
+          sleep $(( RANDOM % 120 ))  # Waits randomly between 0-120 seconds
+
+      # 📝 Generate Random File & Commit
+      - name: 📝 Create & Push Commit
+        run: |
+          FILE_NAME="commit_$(date +%Y%m%d%H%M%S)_$(( RANDOM % 100 )).txt"  # 📄 Random filename
+          echo "🚀 Auto Commit at $(date) - Random: $RANDOM" > $FILE_NAME
+          git add $FILE_NAME
+          git commit -m "✨ Automated Commit - $(date)"
           git push
-          
+
