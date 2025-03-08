@@ -1,59 +1,53 @@
-name: 🚀 Xtreme Dark Stylish GitHub Contributions
+name: "🔥 Multi-Diagonal Gradient Pattern 🔥"
 
 on:
-  workflow_dispatch:  # 🔄 Manually Run karne ke liye
+  workflow_dispatch: # Manually Trigger
 
 jobs:
-  backfill:
+  commit:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📂 Checkout Repository
+      - name: "📥 Checkout Repository"
         uses: actions/checkout@v3
 
-      - name: 🛠 Set Git User
+      - name: "⚙️ Set Git User"
         run: |
-          git config --global user.name "otterai"
-          git config --global user.email "uncle@flash.co"
+          git config --global user.name "DiagonalGradientBot"
+          git config --global user.email "diagonal@gradient.com"
 
-      - name: 📂 Ensure Commit File Exists
+      - name: "🔥 Generate Multi-Diagonal Gradient Pattern 🔥"
         run: |
-          echo "🔥 Coolest Contribution Log" > commit_history.txt
-          git add commit_history.txt
+          start_date="2024-08-01"
+          end_date=$(date +"%Y-%m-%d")
 
-      - name: ⏳ Modify & Commit (Extreme Dark + Stylish)
-        run: |
-          for DAY in {365..1..-1}  # 🔄 1 Saal ka loop
-          do
-            # 🔥 80% chance commit karega, sirf 20% gap hoga
-            SKIP_DAY=$(( RANDOM % 100 ))
-            if (( SKIP_DAY < 20 )); then
-              echo "Skipping $(date -d "$DAY days ago" +%Y-%m-%d) ❌"
-              continue
+          current_date="$start_date"
+          gap=0 # Yeh gap diagonal shift ke liye
+
+          while [ "$current_date" != "$end_date" ]; do
+            if (( gap % 7 == 0 )); then  # 7 days ke gap pe diagonal commit karega
+              for j in {0..3}; do  # Multiple diagonal lines create karega
+                commit_date=$(date -I -d "$current_date + $j days")
+                
+                for i in {1..15}; do  # 15 Commits per day for Main Dark Line
+                  echo "🔥 Dark Line Commit $i on $commit_date" >> commitfile.txt
+                  git add commitfile.txt
+                  GIT_COMMITTER_DATE="$commit_date 12:00:00" GIT_AUTHOR_DATE="$commit_date 12:00:00" git commit -m "🔥 Dark Line Commit on $commit_date"
+                done
+
+                for side_offset in {-1,1}; do  # Side Boxes Medium Dark
+                  side_commit_date=$(date -I -d "$commit_date + $side_offset days")
+                  for i in {1..7}; do  # 7 Commits per day for Side Boxes
+                    echo "⚡ Side Box Commit $i on $side_commit_date" >> commitfile.txt
+                    git add commitfile.txt
+                    GIT_COMMITTER_DATE="$side_commit_date 12:00:00" GIT_AUTHOR_DATE="$side_commit_date 12:00:00" git commit -m "⚡ Side Box Commit on $side_commit_date"
+                  done
+                done
+              done
             fi
-
-            # 🎲 Cool Stylish Commit Pattern
-            STYLE=$(( RANDOM % 5 ))
-
-            case $STYLE in
-              0) COMMITS_PER_DAY=$(( RANDOM % 50 + 50 )) ;;  # 🔥 FULL DARK BLOCKS (50-100 commits)
-              1) COMMITS_PER_DAY=$(( RANDOM % 20 + 30 )) ;;  # 🟢 MEDIUM DARK (30-50 commits)
-              2) COMMITS_PER_DAY=$(( RANDOM % 5 + 1 )) ;;    # 🟢 LIGHT SHADE (1-5 commits)
-              3) COMMITS_PER_DAY=$(( RANDOM % 80 + 20 )) ;;  # 💀 MAX DARK (20-100 commits)
-              4) COMMITS_PER_DAY=$(( RANDOM % 40 + 10 )) ;;  # 🔄 GLITCH PATTERN (10-50 commits)
-            esac
-
-            for i in $(seq 1 $COMMITS_PER_DAY)
-            do
-              echo "🔥 Stylish Commit #$i on $(date -d "$DAY days ago" +%Y-%m-%d)" >> commit_history.txt
-              git add commit_history.txt
-              
-              GIT_COMMITTER_DATE="$(date -d "$DAY days ago" --rfc-2822)" \
-              GIT_AUTHOR_DATE="$(date -d "$DAY days ago" --rfc-2822)" \
-              git commit -m "🔥 Stylish Xtreme Commit - $(date -d "$DAY days ago")"
-            done
+            gap=$((gap+1))
+            current_date=$(date -I -d "$current_date + 1 day")
           done
 
-      - name: 🚀 Push Changes
-        run: git push
-        
+          git push
+          
