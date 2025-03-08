@@ -1,0 +1,50 @@
+name: 🐍 GitHub Snake Contribution Graph
+
+on:
+  workflow_dispatch:  # 🔄 Manually Trigger  
+
+jobs:
+  create_snake:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📂 Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: 🛠 Set Git User
+        run: |
+          git config --global user.name "otterai"
+          git config --global user.email "uncle@flash.co"
+
+      - name: 🐍 Generate Snake Pattern Commits
+        run: |
+          # 📆 Define Start & End Date
+          START_DATE="2024-01-01"  # Apne account creation date ya kuch purani date daal sakte ho
+          END_DATE=$(date +%Y-%m-%d)
+
+          FILE_NAME="snake_commits.txt"
+          touch $FILE_NAME
+
+          # 🐍 Define Snake Wave Pattern (Commit Frequency)
+          SNAKE_PATTERN=(0 2 4 6 8 7 5 3 1 2 4 6 8 7 5 3 1)  # Zigzag Wave  
+
+          INDEX=0
+          while [ "$START_DATE" != "$END_DATE" ]; do
+            COMMITS_PER_DAY=${SNAKE_PATTERN[$INDEX]}  # Dynamic Commit Count
+
+            for i in $(seq 1 $COMMITS_PER_DAY); do
+              echo "🐍 Snake Commit on $START_DATE - $RANDOM" >> $FILE_NAME
+              git add $FILE_NAME
+
+              GIT_COMMITTER_DATE="$START_DATE 12:00:00" \
+              GIT_AUTHOR_DATE="$START_DATE 12:00:00" \
+              git commit -m "🐍 Snake Commit on $START_DATE" --date "$START_DATE 12:00:00"
+            done
+
+            # ⏩ Move to next day & Loop Pattern
+            START_DATE=$(date -d "$START_DATE + 2 days" +%Y-%m-%d)
+            INDEX=$(( (INDEX + 1) % ${#SNAKE_PATTERN[@]} ))  # Loop Pattern
+          done
+
+          git push
+          
