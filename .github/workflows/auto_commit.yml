@@ -1,5 +1,5 @@
-# 🚀 Advanced Auto Commit Workflow
-# 🔄 Makes GitHub contributions look more natural & well-distributed
+# 🚀 Optimized Auto Commit Workflow
+# 🔄 Saves commits in a single folder without recreating it every time
 
 name: 🚀 Auto Commit  
 
@@ -23,6 +23,11 @@ jobs:
           git config --global user.name "otterai"
           git config --global user.email "uncle@flash.co"
 
+      # 📂 Ensure Commit Folder Exists (Runs Only Once)
+      - name: 📂 Create Commit Folder (if not exists)
+        run: |
+          [ -d auto_commits ] || mkdir auto_commits  # Creates only if missing
+
       # ⏳ Random Delay (Makes Commit Timing Unpredictable)
       - name: ⏳ Adding Random Delay
         run: |
@@ -31,9 +36,9 @@ jobs:
       # 📝 Generate Random File & Commit
       - name: 📝 Create & Push Commit
         run: |
-          FILE_NAME="commit_$(date +%Y%m%d%H%M%S)_$(( RANDOM % 100 )).txt"  # 📄 Random filename
+          FILE_NAME="auto_commits/commit_$(date +%Y%m%d%H%M%S)_$(( RANDOM % 100 )).txt"
           echo "🚀 Auto Commit at $(date) - Random: $RANDOM" > $FILE_NAME
           git add $FILE_NAME
           git commit -m "✨ Automated Commit - $(date)"
           git push
-
+          
