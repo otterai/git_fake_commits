@@ -1,6 +1,3 @@
-# 🌟 Fastest GitHub Contribution Booster
-# ⚡ Backfills last 1 month in under 30 seconds
-
 name: 🚀 Instant Backfill Commits  
 
 on:
@@ -23,8 +20,7 @@ jobs:
         run: |
           [ -d auto_commits ] || mkdir auto_commits
 
-      # 🔀 Ultra-Fast Backfill Logic
-      - name: ⏳ Backfill Commits for 1 Month (Ultra-Fast Mode)
+      - name: ⏳ Backfill Commits for 1 Month (Fixed Version)
         run: |
           for DAY in {30..1}
           do
@@ -38,10 +34,9 @@ jobs:
               
               GIT_COMMITTER_DATE="$(date -d "$DAY days ago" --rfc-2822)" \
               GIT_AUTHOR_DATE="$(date -d "$DAY days ago" --rfc-2822)" \
-              git commit -m "🟢 Fast Commit - $(date -d "$DAY days ago")" --date "$(date -d "$DAY days ago")" &  # Runs in background
+              git commit -m "🟢 Fast Commit - $(date -d "$DAY days ago")" --date "$(date -d "$DAY days ago")"
             done
           done
           
-          wait  # Wait for all background commits to finish
           git push
           
