@@ -1,11 +1,11 @@
-# 🚀 Optimized Auto Commit Workflow
-# 🔄 Saves commits in a single folder without recreating it every time
+# 🌟 Ultimate Zig-Zag Contribution Pattern Generator
+# 🎨 Creates a stylish zig-zag contribution graph with multiple commits in one run
 
 name: 🚀 Auto Commit  
 
 on:
   schedule:
-    - cron: "*/10 * * * *"  # ⏳ Runs every 10 minutes
+    - cron: "30 5,11,17,23 * * *"  # 🕒 Runs at 5 AM, 11 AM, 5 PM, 11 PM
   workflow_dispatch:  # 🔄 Manual trigger option
 
 jobs:
@@ -13,32 +13,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 📌 Checkout Repository
       - name: 📂 Checkout Repo
         uses: actions/checkout@v3
 
-      # 🔧 Configure Git User
       - name: 🛠 Set Git User
         run: |
           git config --global user.name "otterai"
           git config --global user.email "uncle@flash.co"
 
-      # 📂 Ensure Commit Folder Exists (Runs Only Once)
       - name: 📂 Create Commit Folder (if not exists)
         run: |
-          [ -d auto_commits ] || mkdir auto_commits  # Creates only if missing
+          [ -d auto_commits ] || mkdir auto_commits
 
-      # ⏳ Random Delay (Makes Commit Timing Unpredictable)
-      - name: ⏳ Adding Random Delay
+      # 🔀 Multi-Commit Zig-Zag Logic
+      - name: 🎲 Zig-Zag Commit Effect
         run: |
-          sleep $(( RANDOM % 120 ))  # Waits randomly between 0-120 seconds
+          HOUR=$(date +%H)
+          
+          if [ $HOUR -ge 23 ] || [ $HOUR -lt 6 ]; then
+            COMMIT_COUNT=$(( RANDOM % 10 + 10 ))  # 🌙 Night: 10-20 commits
+          elif [ $HOUR -ge 17 ] || [ $HOUR -lt 23 ]; then
+            COMMIT_COUNT=$(( RANDOM % 7 + 7 ))  # 🌆 Evening: 7-14 commits
+          else
+            COMMIT_COUNT=$(( RANDOM % 5 + 5 ))  # 🌞 Daytime: 5-10 commits
+          fi
 
-      # 📝 Generate Random File & Commit
-      - name: 📝 Create & Push Commit
-        run: |
-          FILE_NAME="auto_commits/commit_$(date +%Y%m%d%H%M%S)_$(( RANDOM % 100 )).txt"
-          echo "🚀 Auto Commit at $(date) - Random: $RANDOM" > $FILE_NAME
-          git add $FILE_NAME
-          git commit -m "✨ Automated Commit - $(date)"
+          for i in $(seq 1 $COMMIT_COUNT)
+          do
+            FILE_NAME="auto_commits/commit_$(date +%Y%m%d%H%M%S)_$(( RANDOM % 100 )).txt"
+            echo "🚀 Auto Commit #$i at $(date) - Random: $RANDOM" > $FILE_NAME
+            git add $FILE_NAME
+            git commit -m "🟢 Auto Commit #$i - $(date)"
+            sleep $(( RANDOM % 60 ))  # 🕒 Random delay for commit time variation
+          done
+          
           git push
           
