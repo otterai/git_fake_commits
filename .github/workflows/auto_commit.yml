@@ -1,10 +1,10 @@
-name: 🚀 Random Pattern Backfill (Last 10 Months - Alternate Days)  
+name: 🚀 "Hi" Contribution Graph  
 
 on:
   workflow_dispatch:  # 🔄 Manually Trigger
 
 jobs:
-  backfill:
+  create_hi_pattern:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,32 +20,28 @@ jobs:
         run: |
           [ -d autocommits ] || mkdir autocommits
 
-      - name: ⏳ Backfill Commits for 10 Months (Random Pattern, Alternate Days)
+      - name: 📝 Generate "Hi" Pattern Commits
         run: |
-          for DAY in {65..1..2}  # 🗓 Skipping every alternate day
-          do
-            # 🎲 Random probability-based pattern
-            PROBABILITY=$(( RANDOM % 100 ))
-            
-            if (( PROBABILITY < 20 )); then
-              COMMITS_PER_DAY=$(( RANDOM % 2 + 1 ))  # 🔵 20% chance of 1-2 commits (very light green)
-            elif (( PROBABILITY < 50 )); then
-              COMMITS_PER_DAY=$(( RANDOM % 4 + 2 ))  # 🟢 30% chance of 2-6 commits (light green)
-            elif (( PROBABILITY < 80 )); then
-              COMMITS_PER_DAY=$(( RANDOM % 7 + 5 ))  # 🔥 60% chance of 5-12 commits (medium green)
-            else
-              COMMITS_PER_DAY=$(( RANDOM % 10 + 10 ))  # 🚀 80% chance of 10-20 commits (dark green)
-            fi
+          # 🎨 Define the "Hi" pattern (using specific days)
+          HI_DAYS=(10 11 12 13 14 15 16 17 18  # "H" vertical left
+                   22  # "H" middle bar
+                   30 31 32 33 34 35 36 37 38  # "H" vertical right
+                   50 51 52 53 54 55 56 57 58  # "I" vertical
+          )
 
+          for DAY in "${HI_DAYS[@]}"
+          do
+            COMMITS_PER_DAY=$(( RANDOM % 8 + 5 ))  # Random commit count (5-12)
+            
             for i in $(seq 1 $COMMITS_PER_DAY)
             do
-              FILE_NAME="autocommits/commit_$(date -d "$DAY days ago" +%Y%m%d)_$(( RANDOM % 100 )).txt"
-              echo "🚀 Auto Commit at $(date -d "$DAY days ago") - Random: $RANDOM" > $FILE_NAME
+              FILE_NAME="autocommits/commit_$(date -d "2025-01-01 +$DAY days" +%Y%m%d)_$(( RANDOM % 100 )).txt"
+              echo "🔥 Hi Commit at $(date -d "2025-01-01 +$DAY days") - Random: $RANDOM" > $FILE_NAME
               git add $FILE_NAME
               
-              GIT_COMMITTER_DATE="$(date -d "$DAY days ago" --rfc-2822)" \
-              GIT_AUTHOR_DATE="$(date -d "$DAY days ago" --rfc-2822)" \
-              git commit -m "🟢 Random Commit - $(date -d "$DAY days ago")" --date "$(date -d "$DAY days ago")"
+              GIT_COMMITTER_DATE="$(date -d "2025-01-01 +$DAY days" --rfc-2822)" \
+              GIT_AUTHOR_DATE="$(date -d "2025-01-01 +$DAY days" --rfc-2822)" \
+              git commit -m "🔥 Hi Commit - $(date -d "2025-01-01 +$DAY days")" --date "$(date -d "2025-01-01 +$DAY days")"
             done
           done
           
