@@ -1,7 +1,7 @@
-name: 🚀 Ultra Cool GitHub Contributions
+name: 🚀 Xtreme Dark Stylish GitHub Contributions
 
 on:
-  workflow_dispatch:  # 🔄 Manually Trigger
+  workflow_dispatch:  # 🔄 Manually Run karne ke liye
 
 jobs:
   backfill:
@@ -18,44 +18,39 @@ jobs:
 
       - name: 📂 Ensure Commit File Exists
         run: |
-          echo "Commit History Log" > commit_history.txt
+          echo "🔥 Coolest Contribution Log" > commit_history.txt
           git add commit_history.txt
 
-      - name: ⏳ Modify & Commit (Cool Random Gaps)
+      - name: ⏳ Modify & Commit (Extreme Dark + Stylish)
         run: |
-          for DAY in {400..1..1}  # 🗓 300 days loop
+          for DAY in {365..1..-1}  # 🔄 1 Saal ka loop
           do
-            # 🎲 Decide whether to SKIP this day
+            # 🔥 80% chance commit karega, sirf 20% gap hoga
             SKIP_DAY=$(( RANDOM % 100 ))
-
-            if (( SKIP_DAY < 25 )); then
+            if (( SKIP_DAY < 20 )); then
               echo "Skipping $(date -d "$DAY days ago" +%Y-%m-%d) ❌"
-              continue  # 🛑 Skip 25% days randomly
+              continue
             fi
 
-            # 🎲 Randomized Commit Density
-            PROBABILITY=$(( RANDOM % 100 ))
+            # 🎲 Cool Stylish Commit Pattern
+            STYLE=$(( RANDOM % 5 ))
 
-            if (( PROBABILITY < 10 )); then
-              COMMITS_PER_DAY=$(( RANDOM % 5 + 1 ))  # 🍀 10% chance of 1-5 commits
-            elif (( PROBABILITY < 30 )); then
-              COMMITS_PER_DAY=$(( RANDOM % 10 + 6 ))  # 🌿 20% chance of 6-15 commits
-            elif (( PROBABILITY < 60 )); then
-              COMMITS_PER_DAY=$(( RANDOM % 20 + 16 ))  # 🟢 30% chance of 16-35 commits
-            elif (( PROBABILITY < 85 )); then
-              COMMITS_PER_DAY=$(( RANDOM % 30 + 36 ))  # 🔥 25% chance of 36-65 commits
-            else
-              COMMITS_PER_DAY=$(( RANDOM % 40 + 66 ))  # 🚀 15% chance of 66-105 commits (Extreme Dark)
-            fi
+            case $STYLE in
+              0) COMMITS_PER_DAY=$(( RANDOM % 50 + 50 )) ;;  # 🔥 FULL DARK BLOCKS (50-100 commits)
+              1) COMMITS_PER_DAY=$(( RANDOM % 20 + 30 )) ;;  # 🟢 MEDIUM DARK (30-50 commits)
+              2) COMMITS_PER_DAY=$(( RANDOM % 5 + 1 )) ;;    # 🟢 LIGHT SHADE (1-5 commits)
+              3) COMMITS_PER_DAY=$(( RANDOM % 80 + 20 )) ;;  # 💀 MAX DARK (20-100 commits)
+              4) COMMITS_PER_DAY=$(( RANDOM % 40 + 10 )) ;;  # 🔄 GLITCH PATTERN (10-50 commits)
+            esac
 
             for i in $(seq 1 $COMMITS_PER_DAY)
             do
-              echo "Cool Commit #$i on $(date -d "$DAY days ago" +%Y-%m-%d)" >> commit_history.txt
+              echo "🔥 Stylish Commit #$i on $(date -d "$DAY days ago" +%Y-%m-%d)" >> commit_history.txt
               git add commit_history.txt
               
               GIT_COMMITTER_DATE="$(date -d "$DAY days ago" --rfc-2822)" \
               GIT_AUTHOR_DATE="$(date -d "$DAY days ago" --rfc-2822)" \
-              git commit -m "🔥 Ultra Cool Block - $(date -d "$DAY days ago")"
+              git commit -m "🔥 Stylish Xtreme Commit - $(date -d "$DAY days ago")"
             done
           done
 
